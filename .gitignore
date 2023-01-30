@@ -1,0 +1,9 @@
+node_modules
+*.log
+.DS_Store
+node_modules
+coverage
+dist
+stats.html
+.npmrc
+stats.js

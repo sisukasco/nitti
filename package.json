@@ -1,0 +1,36 @@
+{
+  "name": "@sisukas/nitti",
+  "version": "1.0.1",
+  "license": "MIT",
+  "main": "dist/main.js",
+  "types": "dist/src/index.d.ts",
+  "typings": "dist/src/index.d.ts",
+  "files": [
+    "dist/*"
+  ],
+  "scripts": {
+    "build": "rm -rf ./dist && webpack",
+    "dev": "rm -rf ./dist && webpack --watch",
+    "prod": "rm -rf ./dist && webpack --mode=\"production\"",
+    "release": "yarn publish  --access public",
+    "devdep": "yarn build && cp ./dist/main.js ../site/static/c/ld.js",
+    "sizeup": "webpack --json > stats.json && webpack-bundle-analyzer stats.json"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.11.4",
+    "@types/node": "^15.14.0",
+    "@types/sisukas__jquery": "ssh://git@github.com:sisukasco/jQueryTypes.git",
+    "babel-loader": "^8.1.0",
+    "jest": "^27.0.6",
+    "rimraf": "^3.0.2",
+    "ts-jest": "^27.0.3",
+    "ts-loader": "^9.2.3",
+    "typescript": "^4.3.5",
+    "webpack": "^5.41.1",
+    "webpack-bundle-analyzer": "^4.4.2",
+    "webpack-cli": "^4.7.2"
+  },
+  "dependencies": {
+    "@sisukas/jquery": "^3.6.0"
+  }
+}
