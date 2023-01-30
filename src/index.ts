@@ -1,9 +1,10 @@
 import $ from "@sisukas/jquery";
-
+import {attachToCalculatedFields} from "./attach"
 
 
 $(function(){
-    console.log("loaded")
+   // console.log("loaded")
+   attachToCalculatedFields()
 })
 
 
