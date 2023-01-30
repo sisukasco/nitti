@@ -15,12 +15,12 @@
     "release": "yarn publish  --access public",
     "devdep": "yarn build && cp ./dist/main.js ../site/static/c/ld.js",
     "sizeup": "webpack --json > stats.json && webpack-bundle-analyzer stats.json",
-    "test" :"jest"
+    "test": "jest"
   },
   "devDependencies": {
     "@babel/core": "^7.11.4",
-    "@types/node": "^15.14.0",
     "@types/jest": "^26.0.10",
+    "@types/node": "^15.14.0",
     "@types/sisukas__jquery": "ssh://git@github.com:sisukasco/jQueryTypes.git",
     "babel-loader": "^8.1.0",
     "jest": "^27.0.6",
@@ -33,7 +33,6 @@
     "webpack-cli": "^4.7.2"
   },
   "dependencies": {
-    "@sisukas/jquery": "^3.6.0",
-    "acorn": "^8.8.2"
+    "@sisukas/jquery": "^3.6.0"
   }
 }

@@ -1,4 +1,5 @@
 import {collectFormData} from "./collector"
+import {getVariablesUsed} from "./identifiers"
 
 type CalculationFunction = (a:Object)=>any
 
@@ -9,11 +10,9 @@ declare global {
 }
 
 export function attachToCalculatedFields() {
-  $("[r-calculated]").each((i, elm) => {
-    console.log("calculated x ", i, elm);
+  $("[r-calculated]").each((_i, elm) => {
     let fnname = $(elm).attr("r-calculated");
-
-    
+    console.log("fnname ", fnname)
     if(fnname){
         let fnn = getGlobalFunction(fnname);
 
@@ -26,34 +25,43 @@ export function attachToCalculatedFields() {
 }
 
 function routeEventsToGlobalFunction(elm: HTMLElement,fnn:CalculationFunction){
-    let strFn = fnn.toString();
-    console.log("function is ", strFn);
-
-    let form = $(elm).parents("form")
     
-      form.on("change", (evt) => {
-        if(evt.target != elm){
-            console.log("value changed ... event ", evt);
+    let $form = $(elm).parents("form")
 
-            let fd = collectFormData(form.get(0))
-            console.log("FormData collected ", fd)
-            //let fd = { item1_qty: 12 };
-            let res = fnn(fd);
-    
-            console.log("fn result is ", res);
-            
-            if($(elm).prop("tagName") == "INPUT")
-            {
-                $(elm).val(res);
-            }
-            else
-            {
-                $(elm).text(res);
-            }
-            
-        }
+    console.log("routing events to function ...")
+    if($form.length < 1){
+        console.error("no form found")
+        return ;
+    }
+    let form = $form.get(0)
 
-      });
+    const vars = getVariablesUsed(fnn)
+
+    console.log("variables in the fn ", vars)
+    for(var v of vars) {
+        
+        $(`[name="${v}"]`, form).each((_idx,inp)=>{
+            console.log("attaching to variable ", v)
+            $(inp).on("change keyup",()=>{
+                console.log("v ", v," changed")
+                let fd = collectFormData(form)
+                let res = fnn(fd);
+
+                if($(elm).prop("tagName") == "INPUT")
+                {
+                    $(elm).val(res);
+                    $(elm).trigger('change')
+                }
+                else
+                {
+                    $(elm).text(res);
+                }
+
+            })
+        })
+
+    }
+
 }
 
 

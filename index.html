@@ -35,13 +35,29 @@
                 <div class="col">
                     <input type="number" value="0" name="item1_qty" style="width:70px;"/>
                 </div>
+                <div class="col">
+                  Price:
+                  <input type="text" readonly r-calculated="calcItem1" value="0" name="item1_total" style="width:70px;"/>
+                </div>
             </div>
+            <div class="row mb-5">
+              <div class="col">
+                  Some Item 2
+              </div>
+              <div class="col">
+                  <input type="number" value="0" name="item2_qty" style="width:70px;"/>
+              </div>
+              <div class="col">
+                Price:
+                <input type="text" readonly r-calculated="calcItem2" value="0" name="item2_total" style="width:70px;"/>
+              </div>
+          </div>            
             <div class="row mb-5">
                   <div class="col">
                     Total
                   </div>
                   <div class="col">
-                    <span r-calculated="calculateTotal"></span>
+                    <span r-calculated="calculateTotal" ></span>
                   </div>
             </div>
 
@@ -49,9 +65,16 @@
           </form>
 
           <script>
-            function calculateTotal(fd){
+            function calcItem1(fd){
+                return fd.item1_qty * 10
+            }
 
-              return fd.item1_qty * 10
+            function calcItem2(fd){
+                return fd.item2_qty * 20
+            }
+
+            function calculateTotal(fd){
+              return fd.item1_total + fd.item2_total;
             }
 
           </script>
