@@ -1,5 +1,5 @@
 import {collectFormData} from "./collector"
-import {getVariablesUsed} from "./identifiers"
+import {getVariablesUsed, createFunctionFromCode} from "./identifiers"
 
 type CalculationFunction = (a:Object)=>any
 
@@ -11,20 +11,26 @@ declare global {
 
 export function attachToCalculatedFields() {
   $("[r-calculated]").each((_i, elm) => {
-    let fnname = $(elm).attr("r-calculated");
-    console.log("fnname ", fnname)
-    if(fnname){
-        let fnn = getGlobalFunction(fnname);
+    let calccode = $(elm).attr("r-calculated");
+    if(!calccode){ return }
 
-        if (fnn) {
-            routeEventsToGlobalFunction(elm, fnn)
-        }
+    calccode = calccode.trim()
+
+    let fnn = getGlobalFunction(calccode);
+
+    if (fnn) {
+        routeEventsToGlobalFunction(elm, fnn, [])
+    }else{
+        /** it is an expression */
+        const {fn,vars} = createFunctionFromCode(calccode)
+        
+        routeEventsToGlobalFunction(elm, fn, vars)
     }
 
   });
 }
 
-function routeEventsToGlobalFunction(elm: HTMLElement,fnn:CalculationFunction){
+function routeEventsToGlobalFunction(elm: HTMLElement,fnn:CalculationFunction, vars:string[]){
     
     let $form = $(elm).parents("form")
 
@@ -35,9 +41,11 @@ function routeEventsToGlobalFunction(elm: HTMLElement,fnn:CalculationFunction){
     }
     let form = $form.get(0)
 
-    const vars = getVariablesUsed(fnn)
-
-    console.log("variables in the fn ", vars)
+    if(vars.length <= 0)
+    {
+        vars = getVariablesUsed(fnn)
+    }
+    
     for(var v of vars) {
         
         $(`[name="${v}"]`, form).each((_idx,inp)=>{

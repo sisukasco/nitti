@@ -1,5 +1,5 @@
 
-import {extractParameters, getParametersUsed} from "../src/identifiers"
+import {extractParameters, getParametersUsed, getValidIdentifiers,createFunctionFromCode} from "../src/identifiers"
 
 
 
@@ -76,4 +76,48 @@ test("get parameters_used different format",()=>{
 
     variables && expect(variables.includes("lastName")).toBe(true)
 
+})
+
+test("get identifiers from raw code",()=>{
+
+    const variables = getValidIdentifiers("item1 * qty1")
+
+    expect(variables.includes("item1")).toBe(true)
+
+    expect(variables.includes("qty1")).toBe(true)
+
+})
+
+
+test("get identifiers from code with brackets",()=>{
+
+    const variables = getValidIdentifiers("((item1 * qty1) + (item2 * qty2))*1/2")
+
+    console.log("variables ", variables)
+
+    expect(variables.includes("item1")).toBe(true)
+
+    expect(variables.includes("qty1")).toBe(true)
+
+})
+
+test("creating function from code", ()=>{
+
+
+    const {fn,} = createFunctionFromCode("item1 * qty1")
+
+    //console.log("fn code ", fn.toString())
+
+    const it ={
+        item1: 10,
+        qty1: 2
+    }
+    expect(fn(it)).toBe(20)
+
+    const it2 ={
+        item1: 3,
+        qty1: 5
+    }
+
+    expect(fn(it2)).toBe(15)
 })

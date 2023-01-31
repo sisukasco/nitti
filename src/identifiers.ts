@@ -37,3 +37,93 @@ export function getParametersUsed(code:string){
     return variables
 }
 
+
+export function getValidIdentifiers(code: string): string[] {
+    // Remove single-line comments
+    code = code.replace(/\/\/.*/g, "");
+  
+    // Remove multi-line comments
+    code = code.replace(/\/\*[\s\S]*?\*\//g, "");
+  
+    const keywords = [
+      "break",
+      "case",
+      "catch",
+      "class",
+      "const",
+      "continue",
+      "debugger",
+      "default",
+      "delete",
+      "do",
+      "else",
+      "enum",
+      "export",
+      "extends",
+      "false",
+      "finally",
+      "for",
+      "function",
+      "if",
+      "import",
+      "in",
+      "instanceof",
+      "new",
+      "null",
+      "return",
+      "super",
+      "switch",
+      "this",
+      "throw",
+      "true",
+      "try",
+      "typeof",
+      "var",
+      "void",
+      "while",
+      "with",
+      "yield",
+    ];
+  
+    const pattern = new RegExp(
+      `\\b(?!${keywords.join("|")})[a-zA-Z_$][\\w$]*\\b`,
+      "g"
+    );
+  
+    const matches = code.match(pattern);
+    return Array.from(new Set(matches));
+  }
+
+
+  type CalcFunc = {
+    fn: CalculationFunction,
+    vars: string[]
+  }
+  
+  export function createFunctionFromCode(code:string):CalcFunc{
+
+    const vars = getValidIdentifiers(code)
+
+    let param = vars.join(",")
+
+    param ="{"+param+"}"
+
+    const fncode = `
+    let result = 0
+    try{
+        result = ${code};
+    }catch(e){
+        result = 0
+    }
+    return(result);
+    `
+    const newFn = new Function(param, fncode)
+
+    return({
+        fn: <CalculationFunction>(newFn),
+        vars
+    })
+    
+  }
+  
+
