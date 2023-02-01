@@ -1,4 +1,5 @@
 import $ from "@sisukas/jquery";
+
 export type FileUpload={
     file_name:string,
     size:number,
@@ -103,7 +104,15 @@ export class FormElement
                 return getSingleCheckboxValue(this.$e[0])
             }
         }
-        else if(type == "radio")
+        else if(type == "select"){
+
+            const rvalue = this.$e.find(":selected").attr('r-value')
+            if(rvalue === undefined){
+                return getInputValue(this.$e[0])
+            }else{
+                return  normalizeValue(rvalue)
+            }
+        }else if(type == "radio")
         {
             /**
              * jQuery's $(e).val() does not work right for radio group
@@ -115,14 +124,20 @@ export class FormElement
             {
                 if($(group[g]).is(":checked"))
                 {
-                    let v = $(group[g]).attr("value")
-                    if(v !== undefined)
+                    let rv = $(group[g]).attr("r-value")
+                    if(rv !== undefined)
                     {
-                        value = v; break;
+                        value = rv; break;
+                    }else{
+                        let v = $(group[g]).attr("value")
+                        if(v !== undefined)
+                        {
+                            value = v; break;
+                        }
                     }
                 }
             }
-            return value;
+            return normalizeValue(value);
             
         }
         else
@@ -153,7 +168,7 @@ export class FormElement
     
     private getCheckboxGroupValues():FormValue
     {
-        let ret:(string|boolean)[] = []
+        let ret:(string|boolean|number)[] = []
         let name = this.$e.attr("name") ?? ""
         let elmnts = this.getElementsWithName(name)
         for(let g=0;g<elmnts.length;g++)
@@ -169,22 +184,29 @@ export class FormElement
 }
 
 
-function getSingleCheckboxValue(e:HTMLElement):boolean|string
+function getSingleCheckboxValue(e:HTMLElement):boolean|string|number
 {
     let elmnt = $(e)
     let checked = elmnt.is(":checked")
-    let value :boolean|string=false
+    let value :boolean|string|number=false
     if(checked)
     {
-        let v = elmnt.val()
-        if( v=== undefined || v === "on")
+        let rv = elmnt.attr("r-value")
+        if(rv !== undefined)
         {
-            value = true
+            value = normalizeValue(rv)
+        }else{
+            let v = elmnt.val()
+            if( v=== undefined || v === "on")
+            {
+                value = true
+            }
+            else if( typeof(v) == "string")
+            {
+                value = normalizeValue(v)
+            }
         }
-        else if( typeof(v) == "string")
-        {
-            value = v
-        }
+
     }
     else
     {
@@ -205,8 +227,15 @@ function getInputValue(e:HTMLElement)
         val =""
     }
     
+    if(Array.isArray(val)) {
+        return val
+    }
+    return normalizeValue(val)
+}
+
+function normalizeValue(val:string|number):string|number{
     if(typeof val == "string" && isNumeric(val)){
-        val = parseFloat(val)
+        return parseFloat(val)
     }
     return val
 }

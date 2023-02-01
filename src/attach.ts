@@ -1,5 +1,6 @@
 import {collectFormData} from "./collector"
 import {getVariablesUsed, createFunctionFromCode} from "./identifiers"
+import $ from "@sisukas/jquery";
 
 type CalculationFunction = (a:Object)=>any
 
@@ -34,7 +35,6 @@ function routeEventsToGlobalFunction(elm: HTMLElement,fnn:CalculationFunction, v
     
     let $form = $(elm).parents("form")
 
-    console.log("routing events to function ...")
     if($form.length < 1){
         console.error("no form found")
         return ;
@@ -49,9 +49,7 @@ function routeEventsToGlobalFunction(elm: HTMLElement,fnn:CalculationFunction, v
     for(var v of vars) {
         
         $(`[name="${v}"]`, form).each((_idx,inp)=>{
-            console.log("attaching to variable ", v)
             $(inp).on("change keyup",()=>{
-                console.log("v ", v," changed")
                 let fd = collectFormData(form)
                 let res = fnn(fd);
 

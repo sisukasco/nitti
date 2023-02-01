@@ -17,7 +17,6 @@ test("get function parameters",()=>{
 
     const params = extractParameters(fn.toString())
 
-    console.log("params ", params)
 })
 
 test("get parameters_used",()=>{
@@ -93,8 +92,6 @@ test("get identifiers from code with brackets",()=>{
 
     const variables = getValidIdentifiers("((item1 * qty1) + (item2 * qty2))*1/2")
 
-    console.log("variables ", variables)
-
     expect(variables.includes("item1")).toBe(true)
 
     expect(variables.includes("qty1")).toBe(true)
@@ -105,8 +102,6 @@ test("creating function from code", ()=>{
 
 
     const {fn,} = createFunctionFromCode("item1 * qty1")
-
-    //console.log("fn code ", fn.toString())
 
     const it ={
         item1: 10,

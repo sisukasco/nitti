@@ -1,5 +1,6 @@
 
 import { FormElement,FormDataValues } from "./FormElement";
+import $ from "@sisukas/jquery";
 
 export function collectFormData(form:HTMLFormElement){
     let ret:FormDataValues={}
