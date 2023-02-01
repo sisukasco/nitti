@@ -4,8 +4,11 @@ module.exports = {
   mode: 'development',
   entry: './src/index.ts',
   output: {
-    filename: 'main.js',
+    filename: 'nitti.js',
     path: path.resolve(__dirname, 'dist'),
+    libraryTarget: 'umd',
+    library: 'NittiJS',
+    umdNamedDefine: true
   },
   module: {
     rules: [

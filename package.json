@@ -1,8 +1,8 @@
 {
   "name": "@sisukas/nitti",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "license": "MIT",
-  "main": "dist/main.js",
+  "main": "dist/nitti.js",
   "types": "dist/src/index.d.ts",
   "typings": "dist/src/index.d.ts",
   "files": [
@@ -11,9 +11,8 @@
   "scripts": {
     "build": "rm -rf ./dist && webpack ",
     "dev": "rm -rf ./dist && webpack --watch",
-    "prod": "rm -rf ./dist && webpack --mode=\"production\" && cp ./dist/main.js ./html",
+    "prod": "rm -rf ./dist && webpack --mode=\"production\" && cp ./dist/nitti.js ./html",
     "release": "yarn publish  --access public",
-    "devdep": "yarn build && cp ./dist/main.js ../site/static/c/ld.js",
     "sizeup": "webpack --json > stats.json && webpack-bundle-analyzer stats.json",
     "test": "jest"
   },

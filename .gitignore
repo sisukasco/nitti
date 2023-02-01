@@ -7,3 +7,5 @@ dist
 stats.html
 .npmrc
 stats.js
+html/nitti.js
+html/main.js
