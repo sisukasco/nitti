@@ -1,9 +1,8 @@
 import $ from "@sisukas/jquery";
-import {attachToCalculatedFields} from "./attach"
-
+import {attachCalcFields} from "./attach"
 
 $(function(){
-   attachToCalculatedFields()
+   attachCalcFields()
 })
 
 

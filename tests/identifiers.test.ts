@@ -17,6 +17,7 @@ test("get function parameters",()=>{
 
     const params = extractParameters(fn.toString())
 
+    console.log("params ", params)
 })
 
 test("get parameters_used",()=>{

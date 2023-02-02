@@ -1,6 +1,6 @@
 import $ from "@sisukas/jquery";
 import faker from "faker";
-import {attachToCalculatedFields} from "../src/attach"
+import {attachCalcFields} from "../src/attach"
 
 
 test("calc001: simple calculation", () => {
@@ -11,7 +11,7 @@ test("calc001: simple calculation", () => {
           </form>
           `;
 
-    attachToCalculatedFields()
+    attachCalcFields()
 
     const input = <HTMLInputElement>$("#qty_input")[0];
 

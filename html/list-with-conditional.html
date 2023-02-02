@@ -30,40 +30,32 @@
             </div>
             <div class="row mb-5">
                 <div class="col">
-                    <select name="item"><option>Select...</option><option>item1</option><option>item2</option><option>item3</option></select>
+                    <select name="item1">
+                      <option>Select...</option>
+                      <option r-value="50">item1</option>
+                      <option r-value="60">item2</option>
+                      <option r-value="70">item3</option>
+                    </select>
                 </div>
                 <div class="col">
                     <input type="number" value="0" name="item1_qty" style="width:70px;"/>
                 </div>
                 <div class="col">
                   Price:
-                  <input type="text" readonly r-calculated="calculatePrice" value="0" name="item1_total" style="width:70px;"/>
+                  <input type="text" readonly r-calculated="item1 * item1_qty" value="0" name="item1_total" style="width:70px;"/>
                 </div>
+            </div>
+
+            <div class="row mb-5" r-show="item1_total > 100">
+              <div class="col">
+                  Item total greater than 100. You got a discount!
+              </div>
             </div>
 
             <button type="submit" class="btn btn-primary">Submit</button>
           </form>
 
-          <script>
-            var Prices = {
-              "item1":10,
-              "item2":20,
-              "item3":20,
-            }
-
-            function calculatePrice(fd){
-              let p = Prices[fd.item] 
-              if(!p) { return 0}
-
-
-              return p*fd.item1_qty;
-            }
-            
-          </script>
-
           <script src="./nitti.js" ></script>
-
-          
           
     </div>
     

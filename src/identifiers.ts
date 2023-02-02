@@ -1,4 +1,9 @@
 import {CalculationFunction} from "./types"
+declare global {
+  interface Window { 
+      [key:string]: CalculationFunction; 
+  }
+}
 
 
 export function getVariablesUsed(fnn:CalculationFunction):string[]{
@@ -126,4 +131,13 @@ export function getValidIdentifiers(code: string): string[] {
     
   }
   
+
+export function getGlobalFunction(fnname:string){
+    if (typeof window[fnname] == "function"){
+        return window[fnname]
+    }
+
+    return null
+}
+
 
