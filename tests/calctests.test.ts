@@ -7,7 +7,7 @@ test("calc001: simple calculation", () => {
     document.body.innerHTML = `
           <form id="myform">
           <input type="number" id="qty_input" name="quantity" />
-          <span id="calcres" r-calculated="quantity*12"></span>
+          <span id="calcres" r-calc="quantity*12"></span>
           </form>
           `;
 

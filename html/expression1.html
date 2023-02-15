@@ -12,25 +12,26 @@
   </head>
   <body>
     <div class="container">
-      <ul>
-
-      <li><a href="./expression1.html">Simple expression example 1</a></li>
-
-      <li><a href="./expressions.html">Calcs with Expressions</a></li>
-
-      <li><a href="./order-form1.html">Select from option and r-value</a></li>
-
-      <li><a href="./list.html">List</a></li>
-
-      <li><a href="./list2.html">List 2</a></li>
-
-      <li><a href="./conditional.html">Conditional</a></li>
-      
-      <li><a href="./list-with-conditional.html">Conditional with lists</a></li>
-      
-      </ul>
+    <h1>Simple Calculation Form</h1>
+    <form id="calc_form">
+        <div>
+        <label for="num_x">X:</label>
+        <input type="number" name="x" id="num_x"  />
+        </div>
+        
+        <div>
+        <label for="num_y">Y:</label>
+        <input type="number" name="y" id="num_y" />
+        </div>
+        
+        <div>
+        Result: <span r-calc="x*x + y*y"></span>
+        </div>
+        
+    </form> 
+          
 
     </div>
-    
+    <script src="./nitti.js" ></script>
   </body>
 </html>
