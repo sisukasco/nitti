@@ -41,11 +41,9 @@ export class Calc {
     const fnn = getGlobalFunction(expression);
     
     if (fnn) {
-      console.log("received global function ")
       this.func = fnn;
       this.vars = getVariablesUsed(fnn);
     } else {
-      console.log("creating function from code ")
       const { fn, vars } = createFunctionFromCode(expression);
 
       this.func = fn;

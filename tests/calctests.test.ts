@@ -83,8 +83,6 @@ test("calc004: format number en-IN", () => {
 
     const res = $("#calcres").text()
 
-    //console.log("res ", res)
-
     expect(res).toBe("30,00,000")
     
 })
@@ -104,8 +102,6 @@ test("calc005: format number en-US", () => {
     $(input).val(300).trigger('change')
 
     const res = $("#calcres").text()
-
-    //console.log("res ", res)
 
     expect(res).toBe("3,000,000")
     
