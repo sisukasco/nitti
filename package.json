@@ -1,6 +1,6 @@
 {
   "name": "@sisukas/nitti",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "license": "MIT",
   "main": "dist/nitti.js",
   "types": "dist/src/index.d.ts",
@@ -9,7 +9,7 @@
     "dist/*"
   ],
   "scripts": {
-    "build": "rm -rf ./dist && webpack ",
+    "build": "rm -rf ./dist && webpack && cp ./dist/nitti.js ./html",
     "dev": "rm -rf ./dist && webpack --watch",
     "prod": "rm -rf ./dist && webpack --mode=\"production\" && cp ./dist/nitti.js ./html",
     "release": "yarn publish  --access public",

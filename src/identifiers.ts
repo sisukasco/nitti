@@ -135,8 +135,8 @@ export function getValidIdentifiers(code: string): string[] {
 export function getGlobalFunction(fnname:string){
     if (typeof window[fnname] == "function"){
         return window[fnname]
-    }
-
+    } 
+    
     return null
 }
 

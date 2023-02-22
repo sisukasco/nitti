@@ -12,6 +12,12 @@ export enum CalcType {
   CONDITION,
 }
 
+export enum FormatType{
+  None =1,
+  NUMBER,
+  CURRENCY
+}
+
 
 export class Calc {
   private form: HTMLFormElement | Document;
@@ -23,16 +29,23 @@ export class Calc {
 
   private calcType: CalcType = CalcType.CALC;
 
+  private format = FormatType.None;
+  private currencyCode:string = "USD"
+  private locale:string = ""
+
   constructor(
     expression: string,
     elm: HTMLElement,
     type: CalcType = CalcType.CALC
   ) {
     const fnn = getGlobalFunction(expression);
+    
     if (fnn) {
+      console.log("received global function ")
       this.func = fnn;
       this.vars = getVariablesUsed(fnn);
     } else {
+      console.log("creating function from code ")
       const { fn, vars } = createFunctionFromCode(expression);
 
       this.func = fn;
@@ -55,11 +68,43 @@ export class Calc {
     this.run()
   }
 
+  public setFormatToNumber(){
+    this.format = FormatType.NUMBER
+  }
+
+  public setFormatToCurrency(currency:string){
+    this.format = FormatType.CURRENCY
+    if(currency && currency.length == 3){
+      this.currencyCode = currency
+    }
+  }
+
+  public setLocale(loc:string){
+    this.locale = loc
+  }
+
   private attachToEvents() {
     for (var v of this.vars) {
       $(`[name="${v}"]`, this.form).each((_idx, inp) => {
         $(inp).on("change keyup", () => this.run());
       });
+    }
+  }
+
+  private getDefaultLocale(){
+    const userLocale =
+  navigator.languages && navigator.languages.length
+    ? navigator.languages[0]
+    : navigator.language;
+
+    return userLocale
+  }
+
+  private getLocale(){
+    if(this.locale && this.locale.length > 3){
+      return this.locale
+    }else{
+      return this.getDefaultLocale()
     }
   }
 
@@ -71,11 +116,21 @@ export class Calc {
         return;
     }
     if (this.calcType == CalcType.CALC) {
+      let display = res
+
+      if(this.format == FormatType.CURRENCY){
+        const nf = new Intl.NumberFormat(this.getLocale(), { style: "currency", currency: this.currencyCode })
+        display = nf.format(res)
+      } else if(this.format == FormatType.NUMBER){
+        const nf = new Intl.NumberFormat(this.getLocale())
+        display = nf.format(res)
+      }
+
       if ($(this.elm).prop("tagName") == "INPUT") {
-        $(this.elm).val(res);
+        $(this.elm).val(display);
         $(this.elm).trigger("change");
       } else {
-        $(this.elm).text(res);
+        $(this.elm).text(display);
       }
     } else if (this.calcType == CalcType.CONDITION) {
         if(res){
