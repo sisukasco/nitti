@@ -106,3 +106,58 @@ test("calc005: format number en-US", () => {
     expect(res).toBe("3,000,000")
     
 })
+
+test("calc006: global function for calc", () => {
+    document.body.innerHTML = `
+          <form id="myform">
+          <input type="number" id="qty_input" name="quantity" />
+          <span id="calcres" r-calc="calcFn" r-format="number|en-US" ></span>
+          </form>
+          `;
+
+    window.calcFn = (fd:any)=>{
+        return fd.quantity * 10000
+    }
+
+    attachCalcFields()
+
+    const input = <HTMLInputElement>$("#qty_input")[0];
+
+    $(input).val(300).trigger('change')
+
+    const res = $("#calcres").text()
+
+    expect(res).toBe("3,000,000")
+    
+})
+
+test("calc007: global function for calc", () => {
+    document.body.innerHTML = `
+          <form id="myform">
+          <input type="date" id="start_date" name="start_date" />
+          <input type="date" id="end_date" name="end_date" />
+          <span id="calcres" r-calc="daysBetween(start_date,end_date)" ></span>
+          </form>
+          `;
+
+    window.calcFn = (fd:any)=>{
+        return fd.quantity * 10000
+    }
+
+    attachCalcFields()
+
+    const input1 = <HTMLInputElement>$("#start_date")[0];
+
+    $(input1).val("2022-01-01")
+
+    const input2 = <HTMLInputElement>$("#end_date")[0];
+
+    $(input2).val("2022-02-01").trigger('change')
+
+    const res = $("#calcres").text()
+
+    expect(res).toBe("31")
+    
+})
+
+// test cascading calculation fields

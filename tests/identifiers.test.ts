@@ -108,12 +108,12 @@ test("creating function from code", ()=>{
         item1: 10,
         qty1: 2
     }
-    expect(fn(it)).toBe(20)
+    expect(fn(it,{})).toBe(20)
 
     const it2 ={
         item1: 3,
         qty1: 5
     }
 
-    expect(fn(it2)).toBe(15)
+    expect(fn(it2,{})).toBe(15)
 })

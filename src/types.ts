@@ -1,1 +1,1 @@
-export type CalculationFunction = (a:Object)=>any
+export type CalculationFunction = (a:Object, utils:Object)=>any

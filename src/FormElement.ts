@@ -6,7 +6,7 @@ export type FileUpload={
     type: string,
     upload_id:string
 }
-export type SingleFormValue = string|boolean|number|FileUpload
+export type SingleFormValue = string|boolean|number|FileUpload|Date
 
 export type FormValue = SingleFormValue | SingleFormValue[]
 
@@ -144,7 +144,7 @@ export class FormElement
         {
             if(isArray)
             {
-                let ret:(string|number)[] = []
+                let ret:SingleFormValue[] = []
                 let group = this.getElementsWithSameName()
                 for(let g=0;g<group.length;g++)
                 {
@@ -221,6 +221,13 @@ function isNumeric(value:string) {
     
 function getInputValue(e:HTMLElement)
 {
+    if($(e).is('[type="date"]')){
+        let val = $(e).val()
+        let dateVal = new Date(`${val}T00:00`);
+
+        return dateVal
+    }
+
     let val = $(e).val()
 
     /**

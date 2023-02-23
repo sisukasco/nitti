@@ -1,4 +1,5 @@
 import {CalculationFunction} from "./types"
+
 declare global {
   interface Window { 
       [key:string]: CalculationFunction; 
@@ -88,6 +89,8 @@ export function getValidIdentifiers(code: string): string[] {
       "while",
       "with",
       "yield",
+      //*util functions
+      "daysBetween",
     ];
   
     const pattern = new RegExp(
@@ -109,9 +112,12 @@ export function getValidIdentifiers(code: string): string[] {
 
     const vars = getValidIdentifiers(code)
 
+    //Utility functions from functions.ts
+    const utils = `{daysBetween}`;
+
     let param = vars.join(",")
 
-    param ="{"+param+"}"
+    param ="{"+param+"}, "+utils
 
     const fncode = `
     let result = 0
@@ -134,7 +140,7 @@ export function getValidIdentifiers(code: string): string[] {
 
 export function getGlobalFunction(fnname:string){
     if (typeof window[fnname] == "function"){
-        return window[fnname]
+        return <CalculationFunction>window[fnname]
     } 
     
     return null

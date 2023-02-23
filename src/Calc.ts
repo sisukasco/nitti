@@ -6,7 +6,7 @@ import {
 import $ from "@sisukas/jquery";
 import { FormElement, FormDataValues } from "./FormElement";
 import {CalculationFunction} from "./types"
-
+import {Utils} from "./functions"
 export enum CalcType {
   CALC = 1,
   CONDITION,
@@ -106,7 +106,7 @@ export class Calc {
   public run() {
     let fd = this.collectFormData();
     const fnn = this.func;
-    let res = fnn(fd);
+    let res = fnn(fd, Utils);
     if(isNaN(res)){
         return;
     }
