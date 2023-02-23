@@ -61,9 +61,6 @@ export class Calc {
 
     this.calcType = type;
 
-    this.attachToEvents()
-
-    this.run()
   }
 
   public setFormatToNumber(){
@@ -81,7 +78,7 @@ export class Calc {
     this.locale = loc
   }
 
-  private attachToEvents() {
+  public attachToEvents() {
     for (var v of this.vars) {
       $(`[name="${v}"]`, this.form).each((_idx, inp) => {
         $(inp).on("change keyup", () => this.run());
@@ -126,6 +123,7 @@ export class Calc {
 
       if ($(this.elm).prop("tagName") == "INPUT") {
         $(this.elm).val(display);
+        $(this.elm).attr("bareval", res)
         $(this.elm).trigger("change");
       } else {
         $(this.elm).text(display);

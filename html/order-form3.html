@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+
+    <title>Order form with multiple calculation fields</title>
+  </head>
+  <body>
+    <div class="container">
+    <h1>Order form with multiple calculation fields</h1>
+     
+  <div class="container">  
+    <form method="post" id="myform">  
+      <div class="row mb-3">  
+        <div class="col-md-6">  
+          <label class="form-label" for="item1">Select Item:</label>
+          <select class="form-select" name="item1" id="item1">  
+            <option value="" r-value="0">Select ...</option>
+            <option r-value="10">Item 1</option>
+            <option r-value="20">Item 2</option>
+            <option r-value="30">Item 3</option>
+          </select>
+        </div>
+        <div class="col-md-3">  
+          <label class="form-label" for="item1qty">Quantity:</label>
+          <input class="form-control" type="number" name="item1qty" id="item1qty"/>
+        </div>
+        <div class="col-md-3">  
+            <label class="form-label" for="item1qty">Price:</label>
+            <input class="form-control"  type="text" name="item1price" id="item1price" r-calc="item1*item1qty" r-format="currency|usd"/>
+        </div>        
+      </div>
+
+      <div class="row mb-3">  
+        <div class="col-md-6">  
+          <label class="form-label" for="item2">Select Item:</label>
+          <select class="form-select" name="item2" id="item2">  
+            <option value="" r-value="0">Select ...</option>
+            <option r-value="10">Item 1</option>
+            <option r-value="20">Item 2</option>
+            <option r-value="30">Item 3</option>
+          </select>
+        </div>
+        <div class="col-md-3">
+          <label class="form-label" for="item2qty">Quantity:</label>
+          <input class="form-control" type="number" name="item2qty" id="item2qty"/>
+        </div>
+        <div class="col-md-3">  
+            <label class="form-label" for="item2price">Price:</label>
+            <input class="form-control"  type="text" name="item2price" id="item2price" 
+            r-calc="item2*item2qty" r-format="currency|usd"/>
+        </div>        
+      </div>
+      <div class="row mb-3">  
+        <div class="col-md-3">
+            Total: <span r-calc="item1price + item2price" r-format="currency|usd"></span>
+
+        </div>
+      </div>
+
+    </form>
+  </div>
+
+    </div>
+    <script src="./nitti.js" ></script>
+  </body>
+</html>

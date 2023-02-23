@@ -222,6 +222,16 @@ function isNumeric(value:string) {
 function getInputValue(e:HTMLElement)
 {
     let val = $(e).val()
+
+    /**
+     ** Bareval is useful when the value is set to be a formatted number - for example a currency value or number formatted value
+     ** bareval contains the valid arithmetic number that can be used in calculations
+     */
+    let origval = $(e).attr("bareval")
+    if(origval !== undefined){
+        val = origval
+    }
+    
     if(val === undefined)
     {
         val =""

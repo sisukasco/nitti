@@ -41,6 +41,9 @@ export function attachCalcFields(){
 
             }
         }
+
+        calc.attachToEvents()
+        calc.run()
      })
      
      $("[r-show]").each((_i, elm) => {
@@ -48,8 +51,9 @@ export function attachCalcFields(){
         if(!calccode){ return }
         calccode = calccode.trim()
   
-        new Calc(calccode, elm, CalcType.CONDITION)
-
+        let calc = new Calc(calccode, elm, CalcType.CONDITION)
+        calc.attachToEvents()
+        calc.run()        
      })
      
 }
