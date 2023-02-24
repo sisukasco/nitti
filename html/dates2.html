@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+
+    <title>Using Date fields</title>
+  </head>
+  <body>
+    <div class="container">
+    <h1>Using Date Fields</h1>
+     
+  
+    <div class="container">  
+        <form method="post" id="myform">  
+          <div class="row mb-3">  
+            <div class="col">  
+              <label class="form-label" for="start_date">Start Date:</label>
+              <input class="form-control" type="date" novalidate="novalidate" name="start_date" id="start_date"/>
+            </div>
+          </div>
+          <div class="mb-3">  
+                Price: <span r-calc="(start_date.getDay() == 0)?100:50"></span>
+                <div>Price is 100 on Sundays and 50 on other days</div>
+          </div>
+        </form>
+      </div>
+
+  
+    </div>
+    
+    <script>
+        function getPrice(fd){
+            if(fd.start_date.getDay() == 0){
+                return 100
+            }
+            return 50
+        }
+
+    </script>
+
+    <script src="./nitti.js" ></script>
+  </body>
+</html>

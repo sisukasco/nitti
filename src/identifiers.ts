@@ -1,4 +1,5 @@
 import {CalculationFunction} from "./types"
+import {getUtilFunctionNames} from "./functions"
 
 declare global {
   interface Window { 
@@ -89,12 +90,13 @@ export function getValidIdentifiers(code: string): string[] {
       "while",
       "with",
       "yield",
-      //*util functions
-      "daysBetween",
     ];
   
+    const utils = getUtilFunctionNames()
+
+    const reserved = keywords.concat(utils)
     const pattern = new RegExp(
-      `\\b(?!${keywords.join("|")})[a-zA-Z_$][\\w$]*\\b`,
+      `\\b(?!${reserved.join("|")})[a-zA-Z_$][\\w$]*\\b`,
       "g"
     );
   
@@ -112,12 +114,11 @@ export function getValidIdentifiers(code: string): string[] {
 
     const vars = getValidIdentifiers(code)
 
-    //Utility functions from functions.ts
-    const utils = `{daysBetween}`;
-
-    let param = vars.join(",")
-
-    param ="{"+param+"}, "+utils
+    /**
+     ** First parameter is the variables expanded. Second parameter is the utility functions.
+     **  
+     */
+    const param ="{"+vars.join(",")+"}, "+"{" + getUtilFunctionNames().join(",") + "}"
 
     const fncode = `
     let result = 0

@@ -160,4 +160,31 @@ test("calc007: global function for calc", () => {
     
 })
 
+test("calc008: calculate age from date picker", () => {
+    document.body.innerHTML = `
+          <form id="myform">
+          <input type="date" id="birth_date" name="birth_date" />
+          
+          <span id="calcres" r-calc="calculateAge(birth_date)" ></span>
+          </form>
+          `;
+
+    attachCalcFields()
+
+    const input = <HTMLInputElement>$("#birth_date")[0];
+
+    let d = new Date()
+    let y = d.getFullYear() - 16
+    d.setFullYear(y)
+
+    const dateStr = d.toISOString().split('T')[0]
+
+    $(input).val(dateStr).trigger('change')
+
+    const res = $("#calcres").text()
+
+    expect(res).toBe("16")
+    
+})
+
 // test cascading calculation fields
