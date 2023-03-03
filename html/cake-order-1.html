@@ -21,7 +21,7 @@
             <h3>Make your cake!</h3>
 
             <div class="my-3">
-            <label>Size Of the Cake:</label>
+            <label>&#x1F382; Size Of the Cake:</label>
             <div class="form-check">
                 <input type="radio" id="size_round6" class="form-check-input" name="selectedcake"
                     value="Round6" r-value="20" /><label class="form-check-label" for="size_round6">Round cake 6" - serves 8 people
@@ -48,7 +48,7 @@
             </div>
 
             <div class="my-3">
-            <label for="filling" class="d-block">Filling:</label>
+            <label for="filling" class="d-block"> &#127862; Filling:</label>
             <select  class="custom-select" id="filling" name="filling" >
                 <option r-value="0" value="None">Select Filling</option>
                 <option r-value="5" value="Lemon">Lemon($5)</option>
@@ -69,19 +69,19 @@
             <div class="my-3 pl-4">
                 <input type="checkbox"  class="form-check-input" id="includecandles" name="includecandles"  />
                 <label for="includecandles" class="form-check-label">
-                    Include Candles($5)</label>
+                    &#128367; Include Candles($5)</label>
             </div>
 
             <div class="my-3 pl-4">
                 <input type="checkbox" class="form-check-input" id="includeinscription" name="includeinscription" r-value="20"/>
                 <label class="form-check-label" for="includeinscription">
-                    Include Inscription($20)</label>
-                <div>
+                    &#128394; Include Inscription($20)</label>
+                <div r-show="includeinscription">
                     <input type="text" class="form-control" id="theinscription" name="theinscription" placeholder="Enter Inscription" />
                 </div>
             </div>
             <div >
-                Total: <span r-calc="selectedcake + filling + includecandles + includeinscription"></span>
+                Total: <span r-calc="selectedcake + filling + includecandles + includeinscription" r-format="currency|usd"></span>
             </div>
 
             <h3 class="mt-5">Delivery Details:</h3>

@@ -61,6 +61,7 @@ export class Calc {
 
     this.calcType = type;
 
+    console.log(`NittiJS: attached to expression: "${expression}" \nvariables: ${JSON.stringify(this.vars) }`)
   }
 
   public setFormatToNumber(){
