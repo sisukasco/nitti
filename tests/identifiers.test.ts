@@ -117,3 +117,17 @@ test("creating function from code", ()=>{
 
     expect(fn(it2,{})).toBe(15)
 })
+
+
+test("id1001: get identifiers from code - variables with similar to keywords",()=>{
+
+    const variables = getValidIdentifiers("selectedcake + filling + includecandles + includeinscription + void0")
+
+    expect(variables).toContain("selectedcake")
+    expect(variables).toContain("filling")
+    expect(variables).toContain("includecandles")
+    expect(variables).toContain("includeinscription")
+    expect(variables).toContain("void0")
+    //expect(variables.includes("qty1")).toBe(true)
+
+})

@@ -199,7 +199,7 @@ function getSingleCheckboxValue(e:HTMLElement):boolean|string|number
             let v = elmnt.val()
             if( v=== undefined || v === "on")
             {
-                value = true
+                value = 1
             }
             else if( typeof(v) == "string")
             {
@@ -210,7 +210,7 @@ function getSingleCheckboxValue(e:HTMLElement):boolean|string|number
     }
     else
     {
-        value = false
+        value = 0
     }        
     return value
 }

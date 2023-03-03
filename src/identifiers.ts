@@ -95,13 +95,13 @@ export function getValidIdentifiers(code: string): string[] {
     const utils = getUtilFunctionNames()
 
     const reserved = keywords.concat(utils)
-    const pattern = new RegExp(
-      `\\b(?!${reserved.join("|")})[a-zA-Z_$][\\w$]*\\b`,
-      "g"
-    );
+
+    const regex = /\b[a-zA-Z_$][a-zA-Z_$0-9]*\b/g;
   
-    const matches = code.match(pattern);
-    return Array.from(new Set(matches));
+    const matches = code.match(regex);
+    const variables = matches?.filter((id)=>!reserved.includes(id))
+
+    return Array.from(new Set(variables));
   }
 
 

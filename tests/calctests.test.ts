@@ -187,4 +187,26 @@ test("calc008: calculate age from date picker", () => {
     
 })
 
-// test cascading calculation fields
+test("calc009: Use single checkbox in a calculation", () => {
+    document.body.innerHTML = `
+          <form id="myform">
+          <input type="checkbox" id="option" name="option" />
+          
+          <span id="calcres" r-calc="option * 10" ></span>
+          </form>
+          `;
+
+    attachCalcFields()
+
+    const input = <HTMLInputElement>$("#option")[0];
+
+    $(input).trigger("click")
+
+
+    const res = $("#calcres").text()
+
+    expect(res).toBe("10")
+    
+})
+
+//TODO: test cascading calculation fields

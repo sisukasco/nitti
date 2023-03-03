@@ -131,6 +131,35 @@ test("test005: getting radio group value with r-value",()=>
     
 })
 
+test("test0060: getting single checkbox ",()=>
+{
+    const chk_name1 = faker.random.word()
+    const chk_name2 = faker.random.word()
+    
+    document.body.innerHTML =`
+    <form id="myform">
+    <input class="form-check-input" type="checkbox" id="${chk_name1}">
+    <input class="form-check-input" type="checkbox" id="${chk_name2}">
+    </form>
+    `;
+    
+    const form = <HTMLFormElement>$("#myform")[0]
+    const inp1 = form.elements[0]
+    $(inp1).trigger("click")
+    
+    const fd1 = new FormElement(<HTMLElement>inp1)
+    const res1 = fd1.getValue()
+    
+
+    expect(res1).toBe(1)
+
+    const inp2 = form.elements[1]
+    const fd2 = new FormElement(<HTMLElement>inp2)
+    const res2 = fd2.getValue()
+  
+    expect(res2).toBe(0)
+})
+
 test("test006: getting single checkbox with custom value",()=>
 {
     const chk_name1 = faker.random.word()
@@ -157,9 +186,11 @@ test("test006: getting single checkbox with custom value",()=>
     const inp2 = form.elements[1]
     const fd2 = new FormElement(<HTMLElement>inp2)
     const res2 = fd2.getValue()
-    expect(res2).toEqual(false)
+    expect(res2).toEqual(0)
     
 })
+
+
 
 test("test007: getting single checkbox with  r-value",()=>
 {
@@ -190,7 +221,7 @@ test("test007: getting single checkbox with  r-value",()=>
     const inp2 = form.elements[1]
     const fd2 = new FormElement(<HTMLElement>inp2)
     const res2 = fd2.getValue()
-    expect(res2).toEqual(false)
+    expect(res2).toEqual(0)
     
 })
 
