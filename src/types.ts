@@ -1,4 +1,4 @@
-interface MapOfValues {
+export interface MapOfValues {
     [key: string]: any
 }
 

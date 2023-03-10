@@ -1,7 +1,7 @@
 
-import {extractParameters, getParametersUsed, getValidIdentifiers,createFunctionFromCode} from "../src/identifiers"
+import {extractParameters, getParametersUsed, getValidIdentifiers,createFunctionFromCode, getDestructuredParamVariables} from "../src/identifiers"
 
-
+import {MapOfValues} from "../src/types"
 
 test("get function parameters",()=>{
 
@@ -179,4 +179,88 @@ test("fn002: expect variables from form", ()=>{
 
     expect(vars).not.toContain("paramx3")
 
+})
+
+test("des001: extract destructured parameter variables - no destructuring ",()=>{
+    const fn = function(fd:MapOfValues){
+        return fd.abc + fd.bcd;
+    }
+    const res = getDestructuredParamVariables(fn.toString())
+
+    expect(res).toBe(false)
+})
+
+test("des002: extract destructured parameter variables - two params",()=>{
+    const fnCode = `
+    function({param1, param2}){
+        return param1 + param2;
+    }
+    `
+    const res = getDestructuredParamVariables(fnCode)
+
+    expect(res).not.toBe(false)
+    expect((res as string[]).length).toBe(2)
+
+    expect((res as string[])).toContain("param1")
+    expect((res as string[])).toContain("param2")
+})
+
+test("des003: extract destructured parameter variables - many params",()=>{
+    const fnCode = `
+    function({param1, param2, param3, p },{calculateAge}){
+        return param1 + param2;
+    }
+    `
+    const res = getDestructuredParamVariables(fnCode)
+
+    expect(res).not.toBe(false)
+    expect((res as string[]).length).toBe(4)
+
+    expect((res as string[])).toContain("param1")
+    expect((res as string[])).toContain("param2")
+    expect((res as string[])).toContain("param3")
+
+    expect((res as string[])).toContain("p")
+})
+
+test("des004: extract destructured parameter variables - multiple lines",()=>{
+    const fnCode = `
+    function({param1, 
+        param2, 
+        param3, 
+        p },{calculateAge}){
+        return param1 + param2;
+    }
+    `
+    const res = getDestructuredParamVariables(fnCode)
+
+    expect(res).not.toBe(false)
+    expect((res as string[]).length).toBe(4)
+
+    expect((res as string[])).toContain("param1")
+    expect((res as string[])).toContain("param2")
+    expect((res as string[])).toContain("param3")
+
+    expect((res as string[])).toContain("p")
+})
+
+test("des005: extract destructured parameter variables - spaces",()=>{
+    const fnCode = `
+    function( { param1, 
+        param2, 
+        param3, 
+        p } , {calculateAge}){
+        return param1 + param2;
+    }
+    `
+    const res = getDestructuredParamVariables(fnCode)
+
+    expect(res).not.toBe(false)
+    expect((res as string[]).length).toBe(4)
+
+    expect((res as string[])).toContain("param1")
+    expect((res as string[])).toContain("param2")
+    expect((res as string[])).toContain("param3")
+
+    expect((res as string[])).toContain("p")
 })

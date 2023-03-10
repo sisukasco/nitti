@@ -18,13 +18,37 @@ export function extractParameters(code: string): string[] {
     return params.split(',').map(p => p.trim());
 }
 
-export function getParametersUsed(code:string){
+//  \(\{([^\}]*)\}\,?.*\)
+
+export function getDestructuredParamVariables(funcStr:string):Boolean|string[]{
+  const destructuredArgRegex = /\(\s*\{([^}]*)\}(\s*,\s*\{([^}]*)\})?\s*\)/gm;
+  const destructuredArgMatch = destructuredArgRegex.exec(funcStr);
+  
+  if (destructuredArgMatch) {
+    const destructuredArgStr = destructuredArgMatch[1];
+    const destructuredArgs = destructuredArgStr.split(',').map(arg => arg.trim());
+    return destructuredArgs;
+  }else{
+    return false;
+  }
+  
+}
+
+export function getParametersUsed(code:string):string[]{
+
+    const dparams = getDestructuredParamVariables(code)
+
+    
+    if(dparams !== false){
+      return(dparams as string[]);
+    }
 
     // Remove single-line comments
     code = code.replace(/\/\/.*/g, "");
 
     // Remove multi-line comments
     code = code.replace(/\/\*[\s\S]*?\*\//g, "");
+
 
     const params = extractParameters(code)
     if(params.length <= 0 ){
