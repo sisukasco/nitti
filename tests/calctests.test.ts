@@ -209,4 +209,126 @@ test("calc009: Use single checkbox in a calculation", () => {
     
 })
 
+
+test("calc010: Math.pow", () => {
+    document.body.innerHTML = `
+          <form id="myform">
+          <input type="number" id="param" name="param" />
+          <input type="number" id="po" name="po" />
+          <span id="calcres" r-calc="Math.pow(param, po)" ></span>
+          </form>
+          `;
+
+    attachCalcFields()
+
+    const input1 = <HTMLInputElement>$("#param")[0];
+
+    $(input1).val("10")
+
+    const input2 = <HTMLInputElement>$("#po")[0];
+
+    $(input2).val("2").trigger('change')
+
+    const res = $("#calcres").text()
+
+    expect(res).toBe("100")
+    
+})
+
+test("calc011: Math.pow multiple times", () => {
+    document.body.innerHTML = `
+          <form id="myform">
+          <input type="number" id="param" name="param" />
+          <input type="number" id="po" name="po" />
+          <span id="calcres" r-calc="Math.pow(param, po) + 2*Math.pow(param, po)" ></span>
+          </form>
+          `;
+
+    attachCalcFields()
+
+    const input1 = <HTMLInputElement>$("#param")[0];
+
+    $(input1).val("10")
+
+    const input2 = <HTMLInputElement>$("#po")[0];
+
+    $(input2).val("2").trigger('change')
+
+    const res = $("#calcres").text()
+
+    expect(res).toBe("300")
+    
+})
+
+
+test("calc012: Math.pow multiple times", () => {
+    document.body.innerHTML = `
+          <form id="myform">
+          <input type="number" id="amount" name="amount" />
+          <input type="number" id="rate" name="rate" />
+          <span id="calcres" r-calc="calcFunc" r-format="number"></span>
+          </form>
+          `;
+
+    window.calcFunc = function({amount,rate, raxx}) {
+          let amount2 = amount * 100;
+          
+          let monthlyPayment = Math.sqrt(amount2) * rate + raxx;
+      
+          return monthlyPayment;
+      }
+
+    attachCalcFields()
+
+    const input1 = <HTMLInputElement>$("#amount")[0];
+
+    $(input1).val("10")
+
+    const input2 = <HTMLInputElement>$("#rate")[0];
+
+    $(input2).val("2").trigger('change')
+
+    const res = $("#calcres").text()
+
+    expect(res).toBe("63.246")
+    
+})
+
+
+test("calc013: Math.pow multiple times", () => {
+    document.body.innerHTML = `
+          <form id="myform">
+          <input type="number" id="amount" name="amount" />
+          <input type="number" value="12" id="rate" name="rate" />
+          <input type="number" value="1" id="term" name="term" />
+          <span id="calcres" r-calc="calcFunc" r-format="currency|usd"></span>
+          </form>
+          `;
+
+    window.calcFunc = function({amount, rate, term}) {
+          let interestRate = rate / 100 / 12;
+          let loanTerm = term * 12;
+      
+          let monthlyPayment = (amount * interestRate * Math.pow(1 + interestRate, loanTerm)) / (Math.pow(1 + interestRate, loanTerm) - 1);
+      
+          return monthlyPayment;
+      }
+
+    attachCalcFields()
+
+    const input1 = <HTMLInputElement>$("#amount")[0];
+
+    $(input1).val("100000")
+
+    const input2 = <HTMLInputElement>$("#term")[0];
+
+    $(input2).val("2").trigger('change')
+
+    const res = $("#calcres").text()
+
+    expect(res).toBe("$4,707.35")
+    
+})
+
 //TODO: test cascading calculation fields
+

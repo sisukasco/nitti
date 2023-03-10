@@ -99,6 +99,21 @@ test("get identifiers from code with brackets",()=>{
 
 })
 
+
+test("idmath100: get identifiers from code with Math Function calls",()=>{
+
+    const variables = getValidIdentifiers("Math.pow(param1, param2)")
+
+    expect(variables.includes("param1")).toBe(true)
+
+    expect(variables.includes("param2")).toBe(true)
+
+    expect(variables.includes("pow")).toBe(false)
+
+    expect(variables.includes("Math")).toBe(false)
+
+})
+
 test("creating function from code", ()=>{
 
 
@@ -129,5 +144,39 @@ test("id1001: get identifiers from code - variables with similar to keywords",()
     expect(variables).toContain("includeinscription")
     expect(variables).toContain("void0")
     //expect(variables.includes("qty1")).toBe(true)
+
+})
+
+
+
+
+test("fn001: creating function from code", ()=>{
+
+
+    const {fn,vars} = createFunctionFromCode("Math.pow(param, po) + 2*Math.pow(param, po)")
+
+    const it ={
+        param: 10,
+        po: 2
+    }
+    expect(vars).toContain("param")
+    expect(vars).toContain("po")
+
+    expect(vars).not.toContain("pow")
+    expect(vars).not.toContain("Math")
+
+    expect(fn(it,{})).not.toBeNaN()
+
+
+})
+
+
+test("fn002: expect variables from form", ()=>{
+    const {vars} = createFunctionFromCode("paramx1 + paramx2 + paramx3", ["paramx1", "paramx2"])
+
+    expect(vars).toContain("paramx1")
+    expect(vars).toContain("paramx2")
+
+    expect(vars).not.toContain("paramx3")
 
 })

@@ -38,25 +38,31 @@ export class Calc {
     elm: HTMLElement,
     type: CalcType = CalcType.CALC
   ) {
+
+    this.elm = elm;
+    let $form = $(elm).parents("form");
+    if ($form.length > 0) {
+      this.form = $form.get(0);
+    } else {
+      this.form = document;
+    }
+
+    let varsInForm:string[] = []
+    $(":input",this.form).each((_i,elmnt)=>{
+      const name = $(elmnt).attr("name")
+      name && varsInForm.push(name)
+    })
+    
     const fnn = getGlobalFunction(expression);
     
     if (fnn) {
       this.func = fnn;
       this.vars = getVariablesUsed(fnn);
     } else {
-      const { fn, vars } = createFunctionFromCode(expression);
+      const { fn, vars } = createFunctionFromCode(expression, varsInForm);
 
       this.func = fn;
       this.vars = vars;
-    }
-
-    this.elm = elm;
-    let $form = $(elm).parents("form");
-
-    if ($form.length > 0) {
-      this.form = $form.get(0);
-    } else {
-      this.form = document;
     }
 
     this.calcType = type;
@@ -106,8 +112,23 @@ export class Calc {
 
   public run() {
     let fd = this.collectFormData();
+    for(let v of this.vars){
+      if(fd[v] === undefined){
+        fd[v]=0;
+      }
+    }
     const fnn = this.func;
-    let res = fnn(fd, Utils);
+    let res:any;
+
+    {
+      try{
+        res = fnn(fd, Utils);
+      }catch(e){
+        console.error("Error in calculation ",(e as Error).message)
+        return;
+      }
+    }
+
     if(isNaN(res)){
         return;
     }

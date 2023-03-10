@@ -90,13 +90,14 @@ export function getValidIdentifiers(code: string): string[] {
       "while",
       "with",
       "yield",
+      "Math"
     ];
   
     const utils = getUtilFunctionNames()
 
     const reserved = keywords.concat(utils)
 
-    const regex = /\b[a-zA-Z_$][a-zA-Z_$0-9]*\b/g;
+    const regex = /(?<!Math\.)\b[a-zA-Z_$][a-zA-Z_$0-9]*\b/g;
   
     const matches = code.match(regex);
     const variables = matches?.filter((id)=>!reserved.includes(id))
@@ -110,10 +111,14 @@ export function getValidIdentifiers(code: string): string[] {
     vars: string[]
   }
   
-  export function createFunctionFromCode(code:string):CalcFunc{
+  export function createFunctionFromCode(code:string, varsInForm?:string[]):CalcFunc{
 
-    const vars = getValidIdentifiers(code)
+    let vars = getValidIdentifiers(code)
 
+    if(varsInForm){
+        vars = vars.filter((v)=>varsInForm.includes(v))
+    }
+    
     /**
      ** First parameter is the variables expanded. Second parameter is the utility functions.
      **  
@@ -121,14 +126,13 @@ export function getValidIdentifiers(code: string): string[] {
     const param ="{"+vars.join(",")+"}, "+"{" + getUtilFunctionNames().join(",") + "}"
 
     const fncode = `
-    let result = 0
-    try{
-        result = ${code};
-    }catch(e){
-        result = 0
-    }
+    let result = 0;
+
+    result = ${code};
+
     return(result);
     `
+
     const newFn = new Function(param, fncode)
 
     return({
